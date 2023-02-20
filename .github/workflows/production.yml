@@ -1,4 +1,4 @@
-name: 'Prod Env'
+name: 'Production Environment'
 on:
   pull_request:
     branches:
