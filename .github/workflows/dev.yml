@@ -40,6 +40,18 @@ jobs:
     needs: plan
     runs-on: ubuntu-latest
     steps:
-      - name: 'Terragrunt Plan'
-        run: terragrunt run-all plan --terragrunt-non-interactive
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.37.1
+      - name: 'Terragrunt Apply'
+        run: terragrunt run-all apply --terragrunt-non-interactive
         working-directory: ${{ env.WORKING_DIRECTORY }}
