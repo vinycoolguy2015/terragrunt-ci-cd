@@ -1,6 +1,6 @@
 name: 'Staging Environment'
 on:
-  pull_request:
+  push:
     branches:
       - staging
 
