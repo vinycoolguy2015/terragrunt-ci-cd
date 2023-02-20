@@ -1,4 +1,4 @@
-name: 'Dev Env'
+name: 'Prod Env'
 on:
   push:
     branches:
