@@ -1,0 +1,59 @@
+name: 'Staging Env'
+on:
+  push:
+    branches:
+      - staging
+
+env:
+  WORKING_DIRECTORY: './live/stage'
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_REGION: "us-east-1"
+
+jobs:
+  plan:
+    name: 'Terragrunt'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.37.1
+
+      - name: Interact with Terragrunt
+        run: terragrunt --version
+
+      - name: 'Terragrunt Init'
+        run: terragrunt run-all init --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+
+      - name: 'Terragrunt Plan'
+        run: terragrunt run-all plan --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
+  deployment:
+    needs: plan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.0
+          terraform_wrapper: false
+
+      - name: Setup Terragrunt
+        uses: autero1/action-terragrunt@v1.1.0
+        with:
+          terragrunt_version: 0.37.1
+      - name: 'Terragrunt Apply'
+        run: terragrunt run-all apply --terragrunt-non-interactive
+        working-directory: ${{ env.WORKING_DIRECTORY }}
