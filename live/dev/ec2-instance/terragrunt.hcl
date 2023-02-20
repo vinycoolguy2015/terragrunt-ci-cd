@@ -13,3 +13,8 @@ dependency "mysql" {
   }
   mock_outputs_allowed_terraform_commands = ["init","plan"]
 }
+
+
+include "root" {
+  path = find_in_parent_folders()
+}
