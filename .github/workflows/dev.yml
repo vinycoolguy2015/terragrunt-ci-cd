@@ -1,6 +1,9 @@
 name: 'Dev Env'
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - dev
+  
 
 env:
   WORKING_DIRECTORY: './live/dev'
