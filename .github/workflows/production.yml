@@ -1,6 +1,6 @@
 name: 'Prod Env'
 on:
-  push:
+  pull_request:
     branches:
       - main
   
