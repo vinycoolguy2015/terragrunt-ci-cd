@@ -5,6 +5,6 @@ inputs = {
   instance_type = "t2.micro"
   instance_name = "mysql-server-dev"
 }
-include "root" {
+include {
   path = find_in_parent_folders()
 }
